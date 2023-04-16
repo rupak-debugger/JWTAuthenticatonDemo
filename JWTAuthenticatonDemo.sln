@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTAuthenticatonDemo.Domain
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTAuthenticatonDemo.Infrastructure", "JWTAuthenticatonDemo.Infrastructure\JWTAuthenticatonDemo.Infrastructure.csproj", "{B1884F6C-89B2-486E-8280-27E4A5857E9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTAuthenticatonDemo.Presentation", "JWTAuthenticatonDemo.Presentation\JWTAuthenticatonDemo.Presentation.csproj", "{AED3EDB7-1AD1-472A-B9B3-A1ECC070EEB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTAuthenticatonDemo.Api", "JWTAuthenticatonDemo.Api\JWTAuthenticatonDemo.Api.csproj", "{BA515280-6261-4F72-A0EF-608F01E1C346}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,10 @@ Global
 		{B1884F6C-89B2-486E-8280-27E4A5857E9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1884F6C-89B2-486E-8280-27E4A5857E9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1884F6C-89B2-486E-8280-27E4A5857E9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AED3EDB7-1AD1-472A-B9B3-A1ECC070EEB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AED3EDB7-1AD1-472A-B9B3-A1ECC070EEB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AED3EDB7-1AD1-472A-B9B3-A1ECC070EEB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AED3EDB7-1AD1-472A-B9B3-A1ECC070EEB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA515280-6261-4F72-A0EF-608F01E1C346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA515280-6261-4F72-A0EF-608F01E1C346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA515280-6261-4F72-A0EF-608F01E1C346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA515280-6261-4F72-A0EF-608F01E1C346}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,7 +45,7 @@ Global
 		{A35C15CD-F80A-4D52-9878-A7A55D0AFAE2} = {ABBEE25F-CEF0-449B-9BE4-EA9B0ED536EB}
 		{CB4B411C-EDAD-4089-8C0E-7E4746937F7F} = {ABBEE25F-CEF0-449B-9BE4-EA9B0ED536EB}
 		{B1884F6C-89B2-486E-8280-27E4A5857E9A} = {ABBEE25F-CEF0-449B-9BE4-EA9B0ED536EB}
-		{AED3EDB7-1AD1-472A-B9B3-A1ECC070EEB1} = {ABBEE25F-CEF0-449B-9BE4-EA9B0ED536EB}
+		{BA515280-6261-4F72-A0EF-608F01E1C346} = {ABBEE25F-CEF0-449B-9BE4-EA9B0ED536EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7EF6261-C5A8-4EF7-B5A4-FD56E1FA4BC9}
