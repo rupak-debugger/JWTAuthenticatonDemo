@@ -1,4 +1,6 @@
-﻿using JWTAuthenticatonDemo.Application.Settings;
+﻿using JWTAuthenticatonDemo.Application.Common.Interfaces;
+using JWTAuthenticatonDemo.Application.Settings;
+using JWTAuthenticatonDemo.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +18,7 @@ namespace JWTAuthenticatonDemo.Infrastructure
         public static IServiceCollection AddInfrastructure
             (this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
+            services.Configure<JWTSettings>(configuration.GetSection(JWTSettings.SectionName));
             services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -31,6 +33,8 @@ namespace JWTAuthenticatonDemo.Infrastructure
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:Key"]))
                     };
                 });
+
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
             return services;
         }
