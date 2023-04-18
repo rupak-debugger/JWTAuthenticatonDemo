@@ -1,9 +1,12 @@
 ﻿using JWTAuthenticatonDemo.Application.Common.Interfaces;
+using JWTAuthenticatonDemo.Application.Contracts.Services;
 using JWTAuthenticatonDemo.Application.Settings;
 using JWTAuthenticatonDemo.Infrastructure.Authentication;
+using JWTAuthenticatonDemo.Infrastructure.Authentication.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -18,7 +21,10 @@ namespace JWTAuthenticatonDemo.Infrastructure
         public static IServiceCollection AddInfrastructure
             (this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<JWTSettings>(configuration.GetSection(JWTSettings.SectionName));
+            var jwtSettings = new JWTSettings();
+            configuration.Bind(JWTSettings.SectionName,jwtSettings);
+            services.AddSingleton(Options.Create(jwtSettings));
+
             services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -28,13 +34,14 @@ namespace JWTAuthenticatonDemo.Infrastructure
                         ValidateIssuer = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = configuration["JWTSettings:Issuer"],
-                        ValidAudience = configuration["JWTSettings:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:Key"]))
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidAudience = jwtSettings.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
                     };
                 });
 
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
 
             return services;
         }
