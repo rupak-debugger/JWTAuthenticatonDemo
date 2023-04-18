@@ -10,4 +10,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\JWTAuthenticatonDemo.Application\JWTAuthenticatonDemo.Application.csproj" />
+  </ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="12.0.1" />
+	</ItemGroup>
+
 </Project>

@@ -1,3 +1,4 @@
+using JWTAuthenticatonDemo.Application.Features.Login.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JWTAuthenticatonDemo.Api.Controllers
@@ -6,6 +7,10 @@ namespace JWTAuthenticatonDemo.Api.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        public WeatherForecastController()
+        {
+
+        }
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -28,6 +33,12 @@ namespace JWTAuthenticatonDemo.Api.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoginUser(LoginUserQuery query)
+        {
+            return Ok();
         }
     }
 }
