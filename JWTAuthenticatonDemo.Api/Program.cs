@@ -1,4 +1,8 @@
+using JWTAuthenticatonDemo.Application;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddApplicationLayer(builder.Configuration);
 
 // Add services to the container.
 

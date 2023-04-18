@@ -1,4 +1,3 @@
-using JWTAuthenticatonDemo.Application.Features.Login.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JWTAuthenticatonDemo.Api.Controllers
@@ -33,12 +32,6 @@ namespace JWTAuthenticatonDemo.Api.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> LoginUser(LoginUserQuery query)
-        {
-            return Ok();
         }
     }
 }

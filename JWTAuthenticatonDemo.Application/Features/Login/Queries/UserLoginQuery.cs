@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 
 namespace JWTAuthenticatonDemo.Application.Features.Login.Queries
 {
-    public class LoginUserQuery : IRequest<AuthenticationResponse>
+    public class UserLoginQuery : IRequest<AuthenticationResponse>
     {
-        //public AuthenticationRequest LoginUser { get; set; }
+        //public AuthenticationRequest LoginParams { get; set; }
     }
 
-    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, AuthenticationResponse>
+    public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, AuthenticationResponse>
     {
         private readonly IAuthenticationService _authenticationService;
 
-        public LoginUserQueryHandler(IAuthenticationService authenticationService)
+        public UserLoginQueryHandler(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }
 
-        public Task<AuthenticationResponse> Handle(LoginUserQuery request, CancellationToken cancellationToken)
+        public Task<AuthenticationResponse> Handle(UserLoginQuery request, CancellationToken cancellationToken)
         {
             var result = _authenticationService.AuthenticateUserAsync();
             return result;
