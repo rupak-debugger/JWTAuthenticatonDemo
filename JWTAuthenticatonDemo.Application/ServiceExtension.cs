@@ -11,7 +11,7 @@ namespace JWTAuthenticatonDemo.Application
 {
     public static class ServiceExtension
     {
-        public static IServiceCollection AddApplicationLayer(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             //adding mediatr 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
