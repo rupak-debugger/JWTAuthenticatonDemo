@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JWTAuthenticatonDemo.API.Controllers
+namespace JWTAuth.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -23,8 +23,8 @@ namespace JWTAuthenticatonDemo.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
         [Authorize]
+        [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -36,8 +36,8 @@ namespace JWTAuthenticatonDemo.API.Controllers
             .ToArray();
         }
 
-        [HttpGet("UserLogin")]
-        public async Task<IActionResult> UserLogin()
+        [HttpGet("LoginUser")]
+        public async Task<IActionResult> LoginUser()
         {
             var query = new UserLoginQuery();
             return Ok(await _mediator.Send(query));

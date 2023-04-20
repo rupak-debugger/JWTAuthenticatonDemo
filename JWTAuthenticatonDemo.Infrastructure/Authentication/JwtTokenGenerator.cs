@@ -35,7 +35,7 @@ namespace JWTAuthenticatonDemo.Infrastructure.Authentication
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
+                expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: signingCredentials);
 
 

@@ -1,4 +1,4 @@
-namespace JWTAuthenticatonDemo.API
+namespace JWTAuth.API
 {
     public class WeatherForecast
     {
