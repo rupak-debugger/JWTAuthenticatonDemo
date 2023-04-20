@@ -1,5 +1,4 @@
-using JWTAuthenticatonDemo.API;
-using Microsoft.OpenApi.Models;
+using JWTAuthenticatonDemo.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,12 +8,7 @@ builder.Services.AppConfigurations(builder.Configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-});
+builder.Services.AddSwaggerExtension();
 
 var app = builder.Build();
 
@@ -22,17 +16,21 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger(c =>
-    {
-        c.RouteTemplate = "/swagger/{documentName}/swagger.json";
-    });
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+    app.UseSwaggerExtension();
+
 }
 
 app.UseHttpsRedirection();
 
+app.UseCors(x => x
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                //.AllowCredentials()
+                .AllowAnyOrigin()
+                );
+
 app.UseAuthorization();
-//app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapControllers();
 
