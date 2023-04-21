@@ -1,4 +1,5 @@
 ﻿using JWTAuthenticatonDemo.Application.Models.Authentication;
+using JWTAuthenticatonDemo.Application.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace JWTAuthenticatonDemo.Application.Contracts.Services
 {
     public interface IAuthenticationService
     {
-        Task<AuthenticationResponse> AuthenticateUserAsync();
+        Task<Response<AuthenticationResponse>> AuthenticateUserAsync(AuthenticationRequest request);
     }
 }

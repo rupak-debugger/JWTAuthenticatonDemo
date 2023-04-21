@@ -1,6 +1,7 @@
 ﻿using JWTAuthenticatonDemo.Application.Common.Interfaces;
 using JWTAuthenticatonDemo.Application.Contracts.Services;
 using JWTAuthenticatonDemo.Application.Models.Authentication;
+using JWTAuthenticatonDemo.Application.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,12 @@ namespace JWTAuthenticatonDemo.Infrastructure.Authentication.Services
             _jwtTokenGenerator = jwtTokenGenerator;
         }
 
-        public async Task<AuthenticationResponse> AuthenticateUserAsync()
+        public async Task<Response<AuthenticationResponse>> AuthenticateUserAsync(AuthenticationRequest request)
         {
-            string firstName = "firstName";
-            string lastName = "lastName";
-            string guid = Guid.NewGuid().ToString();
-            var token = await _jwtTokenGenerator.GenerateToken(guid, firstName, lastName);
-            return new AuthenticationResponse(guid,firstName,lastName,token);
+            var token = await _jwtTokenGenerator.GenerateToken(request);
+            var response = new AuthenticationResponse(Guid.NewGuid().ToString(), "firstName", "lastName", token);
+            //return new AuthenticationResponse(guid,firstName,lastName,token);
+            return new Response<AuthenticationResponse>(response, "");
         }
     }
 }

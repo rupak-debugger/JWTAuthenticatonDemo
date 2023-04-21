@@ -36,10 +36,9 @@ namespace JWTAuth.API.Controllers
             .ToArray();
         }
 
-        [HttpGet("LoginUser")]
-        public async Task<IActionResult> LoginUser()
+        [HttpPost("LoginUser")]
+        public async Task<IActionResult> LoginUser([FromBody] UserLoginQuery query)
         {
-            var query = new UserLoginQuery();
             return Ok(await _mediator.Send(query));
         }
     }
