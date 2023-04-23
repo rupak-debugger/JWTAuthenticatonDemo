@@ -16,4 +16,8 @@
     <ProjectReference Include="..\JWTAuthenticatonDemo.Application\JWTAuthenticatonDemo.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\Services\" />
+  </ItemGroup>
+
 </Project>
