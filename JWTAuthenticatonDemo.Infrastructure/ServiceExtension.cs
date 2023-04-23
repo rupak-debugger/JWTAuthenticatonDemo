@@ -3,8 +3,10 @@ using JWTAuthenticatonDemo.Application.Contracts.Services;
 using JWTAuthenticatonDemo.Application.Settings;
 using JWTAuthenticatonDemo.Infrastructure.Authentication;
 using JWTAuthenticatonDemo.Infrastructure.Authentication.Services;
+using JWTAuthenticatonDemo.Infrastructure.Persistence.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -22,6 +24,11 @@ namespace JWTAuthenticatonDemo.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
+            #region DbContext
+            services.AddDbContext<ApplicationDbContext>(options=>options.UseSqlServer(config.GetConnectionString("AppConn"),
+                b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)), ServiceLifetime.Transient);
+            #endregion
+            #region JWTConfiguration
             var jwtSettings = new JWTSettings();
             config.Bind(JWTSettings.SectionName, jwtSettings);
             services.AddSingleton(Options.Create(jwtSettings));
@@ -75,8 +82,11 @@ namespace JWTAuthenticatonDemo.Infrastructure
                         }
                     };
                 });
+            #endregion
+            #region RegisterServices
             services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
+            #endregion
             return services;
         }
     }
