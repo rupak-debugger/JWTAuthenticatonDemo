@@ -13,8 +13,11 @@ namespace JWTAuthenticatonDemo.Application
     {
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
-            //adding mediatr 
+            //adding Mediatr 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+            //adding Automapper 
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             //services.AddInfrastructure(config);
             return services;

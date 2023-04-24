@@ -8,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWTAuthenticatonDemo.Application.Features.Login.Queries
+namespace JWTAuthenticatonDemo.Application.Features.Authentication.Queries
 {
     public class UserLoginQuery : IRequest<Response<AuthenticationResponse>>
     {
-        public AuthenticationRequest LoginParams { get; set; }
+        public AuthenticationRequest AuthenticationParams { get; set; }
     }
 
     public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, Response<AuthenticationResponse>>
@@ -24,9 +24,9 @@ namespace JWTAuthenticatonDemo.Application.Features.Login.Queries
             _authenticationService = authenticationService;
         }
 
-        public Task<Response<AuthenticationResponse>> Handle(UserLoginQuery request, CancellationToken cancellationToken)
+        public async Task<Response<AuthenticationResponse>> Handle(UserLoginQuery request, CancellationToken cancellationToken)
         {
-            return _authenticationService.AuthenticateUserAsync(request.LoginParams);
+            return await _authenticationService.AuthenticateUserAsync(request.AuthenticationParams);
         }
     }
 }

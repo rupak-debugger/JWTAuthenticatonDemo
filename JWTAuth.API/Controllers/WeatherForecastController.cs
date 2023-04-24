@@ -1,4 +1,3 @@
-using JWTAuthenticatonDemo.Application.Features.Login.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,12 +33,6 @@ namespace JWTAuth.API.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
-        }
-
-        [HttpPost("LoginUser")]
-        public async Task<IActionResult> LoginUser([FromBody] UserLoginQuery query)
-        {
-            return Ok(await _mediator.Send(query));
         }
     }
 }

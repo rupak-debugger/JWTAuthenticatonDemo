@@ -3,9 +3,9 @@ using JWTAuthenticatonDemo.Application.Contracts.Repositories;
 using JWTAuthenticatonDemo.Application.Contracts.Services;
 using JWTAuthenticatonDemo.Application.Settings;
 using JWTAuthenticatonDemo.Infrastructure.Authentication;
-using JWTAuthenticatonDemo.Infrastructure.Authentication.Services;
 using JWTAuthenticatonDemo.Infrastructure.Persistence.Contexts;
 using JWTAuthenticatonDemo.Infrastructure.Persistence.Repositories;
+using JWTAuthenticatonDemo.Infrastructure.Persistence.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -97,6 +97,7 @@ namespace JWTAuthenticatonDemo.Infrastructure
             #region Repositories
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
             #endregion
             return services;
         }
