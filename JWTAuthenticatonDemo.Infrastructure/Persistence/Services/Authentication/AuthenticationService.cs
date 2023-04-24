@@ -33,7 +33,9 @@ namespace JWTAuthenticatonDemo.Infrastructure.Persistence.Services
 
         public async Task<ApplicationUser> RegisterUserAsync(ApplicationUser user)
         {
-            return await _applicationUserRepo.AddAsync(user);
+            var result = await _applicationUserRepo.AddAsync(user);
+            await _applicationUserRepo.SaveChangesAsync();
+            return result;
         }
     }
 }

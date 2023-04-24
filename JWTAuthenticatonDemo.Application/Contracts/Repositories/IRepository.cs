@@ -23,5 +23,7 @@ namespace JWTAuthenticatonDemo.Application.Contracts.Repositories
         Task<TEntity> UpdateAsync(TEntity entity);
         void UpdateRange(List<TEntity> entities);
         Task UpdateRangeAsync(List<TEntity> entities);
+
+        Task SaveChangesAsync();
     }
 }

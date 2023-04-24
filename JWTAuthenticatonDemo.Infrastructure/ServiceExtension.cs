@@ -90,6 +90,7 @@ namespace JWTAuthenticatonDemo.Infrastructure
             #region Services
 
             services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
 
             #endregion

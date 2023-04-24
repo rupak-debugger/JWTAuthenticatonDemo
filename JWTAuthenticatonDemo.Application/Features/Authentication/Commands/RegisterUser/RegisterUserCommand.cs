@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace JWTAuthenticatonDemo.Application.Features.Authentication.Commands
 {
-    public class RegisterUserCommand : IRequest<Response<ApplicationUser>>
+    public class RegisterUserCommand : IRequest<Response<RegistrationResponse>>
     {
-        public ApplicationUser RegistrationParams { get; set; }
+        public RegistrationRequest RegistrationParams { get; set; }
     }
 
 
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Response<ApplicationUser>>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Response<RegistrationResponse>>
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IMapper _mapper;
@@ -29,12 +29,12 @@ namespace JWTAuthenticatonDemo.Application.Features.Authentication.Commands
             _mapper = mapper;
         }
 
-        public async Task<Response<ApplicationUser>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<Response<RegistrationResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            //var user = _mapper.Map<ApplicationUser>(request.RegistrationParams);
-            var result = await _authenticationService.RegisterUserAsync(request.RegistrationParams);
-            //var response = _mapper.Map<RegistrationResponse>(result);
-            return new Response<ApplicationUser>(result, "User created successfully");
+            var user = _mapper.Map<ApplicationUser>(request.RegistrationParams);
+            var result = await _authenticationService.RegisterUserAsync(user);
+            var response = _mapper.Map<RegistrationResponse>(result);
+            return new Response<RegistrationResponse>(response, "User created successfully");
         }
     }
 }
