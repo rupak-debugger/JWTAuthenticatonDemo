@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using JWTAuthenticatonDemo.Application.Settings;
 using Microsoft.Extensions.Options;
 using JWTAuthenticatonDemo.Application.Models.Authentication;
+using JWTAuthenticatonDemo.Domain.Entities;
 
 namespace JWTAuthenticatonDemo.Infrastructure.Authentication
 {
@@ -20,13 +21,13 @@ namespace JWTAuthenticatonDemo.Infrastructure.Authentication
         {
             _jwtSettings = jwtSettings.Value;
         }
-        public async Task<string> GenerateToken(AuthenticationRequest request)
+        public async Task<string> GenerateToken(ApplicationUser user)
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, request.Email),
-                //new Claim(JwtRegisteredClaimNames.GivenName, firstName),
-                //new Claim(JwtRegisteredClaimNames.FamilyName, lastName),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
+                new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));

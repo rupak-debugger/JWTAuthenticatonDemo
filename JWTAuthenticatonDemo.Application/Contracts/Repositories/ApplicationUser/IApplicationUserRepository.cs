@@ -10,6 +10,6 @@ namespace JWTAuthenticatonDemo.Application.Contracts.Repositories
 {
     public interface IApplicationUserRepository : IRepository<ApplicationUser>
     {
-        Task<ApplicationUser> FindByEmailAsync(Expression<Func<ApplicationUser, bool>> predicate);
+        Task<ApplicationUser> FirstOrDefaultAsync(Expression<Func<ApplicationUser, bool>> predicate);
     }
 }

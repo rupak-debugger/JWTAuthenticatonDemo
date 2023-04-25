@@ -1,4 +1,5 @@
 ﻿using JWTAuthenticatonDemo.Application.Features.Authentication.Commands;
+using JWTAuthenticatonDemo.Application.Features.Authentication.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,12 @@ namespace JWTAuth.API.Controllers
         public async Task<IActionResult> RegisterUser([FromBody] RegisterUserCommand command)
         {
             return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPost("LoginUser")]
+        public async Task<IActionResult> LoginUser([FromBody] UserLoginQuery query)
+        {
+            return Ok(await _mediator.Send(query));
         }
     }
 }

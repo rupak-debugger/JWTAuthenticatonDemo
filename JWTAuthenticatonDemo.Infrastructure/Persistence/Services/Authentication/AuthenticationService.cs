@@ -25,33 +25,51 @@ namespace JWTAuthenticatonDemo.Infrastructure.Persistence.Services
             _passwordHasher = passwordHasher;
         }
 
-        //public async Task<Response<AuthenticationResponse>> AuthenticateUserAsync(AuthenticationRequest request)
-        //{
-        //    var token = await _jwtTokenGenerator.GenerateToken(request);
-        //    var response = new AuthenticationResponse(Guid.NewGuid().ToString(), "firstName", "lastName", token);
-        //    return new Response<AuthenticationResponse>(response, "");
-        //}
-
         public async Task<Response<RegistrationResponse>> RegisterUserAsync(RegistrationRequest request)
         {
-            var passwordHash = await _passwordHasher.HashPasswordAsync(request.Password);
-            ApplicationUser user = new ()
-            { 
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                PasswordHash = passwordHash,
-                Email = request.Email,
-            };
-            await _applicationUserRepo.AddAsync(user);
-            await _applicationUserRepo.SaveChangesAsync();
-            var result = new RegistrationResponse(user.Email);
-            return new Response<RegistrationResponse>(result,"User registered successfully !");
+            if(!await UserExists(request.Email))
+            {
+                var passwordHash = await _passwordHasher.HashPasswordAsync(request.Password);
+                ApplicationUser user = new()
+                {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    PasswordHash = passwordHash,
+                    Email = request.Email,
+                };
+                await _applicationUserRepo.AddAsync(user);
+                await _applicationUserRepo.SaveChangesAsync();
+                var result = new RegistrationResponse(user.Email);
+                return new Response<RegistrationResponse>(result);
+            }
+            return new Response<RegistrationResponse>("Email already taken !!");
         }
 
-        public async Task AuthenticateUserAsync(AuthenticationRequest request)
+        public async Task<Response<AuthenticationResponse>> AuthenticateUserAsync(AuthenticationRequest request)
         {
-            var user = await _applicationUserRepo.FindByEmailAsync(e => e.Email == request.Email);
-            await _passwordHasher.VerifyPasswordAsync(request.Password, user.PasswordHash);
+            var user = await _applicationUserRepo.FirstOrDefaultAsync(a => a.Email == request.Email);
+            if (user!=null)
+            {
+                var result = await _passwordHasher.VerifyPasswordAsync(request.Password, user.PasswordHash);
+                if (result)
+                {
+                    var token = await _jwtTokenGenerator.GenerateToken(user);
+                    var response = new AuthenticationResponse(user.FirstName, user.Email, token);
+                    return new Response<AuthenticationResponse>(response, "Logged in Successfully");
+                }
+                return new Response<AuthenticationResponse>("Password didnot match");
+            }
+            return new Response<AuthenticationResponse>("Email not found");
+        }
+
+        private async Task<bool> UserExists(string email)
+        {
+            var user = await _applicationUserRepo.FirstOrDefaultAsync(a => a.Email == email);
+            if (user!=null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

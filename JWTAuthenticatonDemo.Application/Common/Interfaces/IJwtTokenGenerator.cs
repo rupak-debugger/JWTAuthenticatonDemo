@@ -1,4 +1,5 @@
 ﻿using JWTAuthenticatonDemo.Application.Models.Authentication;
+using JWTAuthenticatonDemo.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace JWTAuthenticatonDemo.Application.Common.Interfaces
 {
     public interface IJwtTokenGenerator
     {
-        Task<string> GenerateToken(AuthenticationRequest request);
+        Task<string> GenerateToken(ApplicationUser user);
     }
 }

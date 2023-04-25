@@ -18,9 +18,11 @@ namespace JWTAuthenticatonDemo.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<ApplicationUser> FindByEmailAsync(Expression<Func<ApplicationUser,bool>> predicate)
+        public async Task<ApplicationUser> FirstOrDefaultAsync(Expression<Func<ApplicationUser,bool>> predicate)
         {
-            var user = await _dbContext.ApplicationUsers.FindAsync(predicate);
+            var user = await Task.Run(() =>
+            _dbContext.ApplicationUsers.FirstOrDefault(predicate)
+            );
             if (user != null)
             {
                 return user;
