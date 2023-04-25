@@ -8,7 +8,8 @@ namespace JWTAuthenticatonDemo.Application.Common.Interfaces
 {
     public interface IPasswordHasher
     {
-        Task<string> HashPasswordAsync(string password, byte[] salt);
-        Task<byte[]> GenerateSaltAsync();
+        Task<string> HashPasswordAsync(string password);
+        Task<bool> VerifyPasswordAsync(string password, string hashedPasswordWithSalt);
+        //Task<byte[]> GenerateSaltAsync();
     }
 }

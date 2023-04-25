@@ -1,6 +1,5 @@
 ﻿using JWTAuthenticatonDemo.Application.Contracts.Services;
 using JWTAuthenticatonDemo.Application.Models.Authentication;
-using JWTAuthenticatonDemo.Application.Wrappers;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace JWTAuthenticatonDemo.Application.Features.Authentication.Queries
 {
-    public class UserLoginQuery : IRequest<Response<AuthenticationResponse>>
+    public class UserLoginQuery : IRequest
     {
         public AuthenticationRequest AuthenticationParams { get; set; }
     }
 
-    public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery, Response<AuthenticationResponse>>
+    public class UserLoginQueryHandler : IRequestHandler<UserLoginQuery>
     {
         private readonly IAuthenticationService _authenticationService;
 
@@ -24,9 +23,9 @@ namespace JWTAuthenticatonDemo.Application.Features.Authentication.Queries
             _authenticationService = authenticationService;
         }
 
-        public async Task<Response<AuthenticationResponse>> Handle(UserLoginQuery request, CancellationToken cancellationToken)
+        public async Task Handle(UserLoginQuery request, CancellationToken cancellationToken)
         {
-            return await _authenticationService.AuthenticateUserAsync(request.AuthenticationParams);
+            await _authenticationService.AuthenticateUserAsync(request.AuthenticationParams);
         }
     }
 }

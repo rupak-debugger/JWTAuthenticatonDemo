@@ -8,6 +8,14 @@ namespace JWTAuthenticatonDemo.Application.Models.Authentication
 {
     public class RegistrationResponse
     {
-        public int UserId { get; set; }
+        public string Email { get; set; }
+        public RegistrationResponse()
+        {
+
+        }
+        public RegistrationResponse(string email)
+        {
+            this.Email = email;
+        }
     }
 }

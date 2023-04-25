@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JWTAuthenticatonDemo.Application.Common.Interfaces;
 using JWTAuthenticatonDemo.Application.Contracts.Services;
 using JWTAuthenticatonDemo.Application.Models.Authentication;
 using JWTAuthenticatonDemo.Application.Wrappers;
@@ -21,20 +22,15 @@ namespace JWTAuthenticatonDemo.Application.Features.Authentication.Commands
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Response<RegistrationResponse>>
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IMapper _mapper;
 
-        public RegisterUserCommandHandler(IAuthenticationService authenticationService, IMapper mapper)
+        public RegisterUserCommandHandler(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
-            _mapper = mapper;
         }
 
         public async Task<Response<RegistrationResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            var user = _mapper.Map<ApplicationUser>(request.RegistrationParams);
-            var result = await _authenticationService.RegisterUserAsync(user);
-            var response = _mapper.Map<RegistrationResponse>(result);
-            return new Response<RegistrationResponse>(response, "User created successfully");
+            return await _authenticationService.RegisterUserAsync(request.RegistrationParams);
         }
     }
 }

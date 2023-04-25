@@ -11,7 +11,7 @@ namespace JWTAuthenticatonDemo.Application.Contracts.Services
 {
     public interface IAuthenticationService
     {
-        Task<Response<AuthenticationResponse>> AuthenticateUserAsync(AuthenticationRequest request);
-        Task<ApplicationUser> RegisterUserAsync(ApplicationUser user);
+        Task AuthenticateUserAsync(AuthenticationRequest request);
+        Task<Response<RegistrationResponse>> RegisterUserAsync(RegistrationRequest request);
     }
 }
