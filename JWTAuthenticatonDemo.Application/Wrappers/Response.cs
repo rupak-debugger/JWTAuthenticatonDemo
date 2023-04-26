@@ -8,8 +8,8 @@ namespace JWTAuthenticatonDemo.Application.Wrappers
 {
     public class Response<T>
     {
-        public T Data { get; set; }
-        //public ICollection<string>? Error { get; set; }
+        public T? Data { get; set; }
+        public ICollection<string>? Error { get; set; }
         public string? Message { get; set; }
         public bool Success { get; set; }
         public Response(T data)
@@ -25,8 +25,13 @@ namespace JWTAuthenticatonDemo.Application.Wrappers
         }
         public Response(string message)
         {
-            this.Success=false;
-            this.Message=message;
+            this.Success = false;
+            this.Message = message;
+        }
+        public Response(List<string> errors)
+        {
+            this.Error = errors;
+            this.Success = false;
         }
 
     }

@@ -74,6 +74,15 @@ namespace JWTAuthenticatonDemo.Infrastructure.Persistence.Repositories
             return await _dbContext.Set<TEntity>().FindAsync(id);
         }
 
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> where)
+        {
+            return await _dbContext.Set<TEntity>().AnyAsync(where);
+        }
+        public async Task<bool>AnyAsync()
+        {
+            return await _dbContext.Set<TEntity>().AnyAsync();
+        }
+
         #endregion
 
         #region Update 

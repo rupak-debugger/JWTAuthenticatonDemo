@@ -38,8 +38,6 @@ namespace JWTAuthenticatonDemo.Infrastructure.Authentication
             {
                 hashedInputBytes = await Task.Run(() => pbkdf2.GetBytes(32));
             }
-            Console.WriteLine(hashedPasswordBytes);
-            Console.WriteLine(hashedInputBytes);
             return hashedPasswordBytes.SequenceEqual(hashedInputBytes);
         }
 

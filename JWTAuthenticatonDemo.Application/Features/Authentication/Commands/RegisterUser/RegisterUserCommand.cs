@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using JWTAuthenticatonDemo.Application.Common.Interfaces;
-using JWTAuthenticatonDemo.Application.Contracts.Services;
+﻿using JWTAuthenticatonDemo.Application.Contracts.Services;
 using JWTAuthenticatonDemo.Application.Models.Authentication;
 using JWTAuthenticatonDemo.Application.Wrappers;
-using JWTAuthenticatonDemo.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;

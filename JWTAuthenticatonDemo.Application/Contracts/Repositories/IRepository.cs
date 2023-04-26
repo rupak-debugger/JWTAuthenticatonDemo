@@ -8,6 +8,8 @@ namespace JWTAuthenticatonDemo.Application.Contracts.Repositories
 
         TEntity Add(TEntity entity);
         Task<TEntity> AddAsync(TEntity entity);
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> where);
+        Task<bool> AnyAsync();
         List<TEntity> GetAll();
         List<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate);
         Task<List<TEntity>> GetAllAsync();
