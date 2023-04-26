@@ -12,6 +12,10 @@ namespace JWTAuthenticatonDemo.Application.Wrappers
         public ICollection<string>? Error { get; set; }
         public string? Message { get; set; }
         public bool Success { get; set; }
+        public Response()
+        {
+
+        }
         public Response(T data)
         {
             this.Data = data;

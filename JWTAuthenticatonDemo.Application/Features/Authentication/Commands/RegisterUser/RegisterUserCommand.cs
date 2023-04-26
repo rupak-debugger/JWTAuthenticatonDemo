@@ -28,6 +28,7 @@ namespace JWTAuthenticatonDemo.Application.Features.Authentication.Commands
         public async Task<Response<RegistrationResponse>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             return await _authenticationService.RegisterUserAsync(request.RegistrationParams);
+
         }
     }
 }
