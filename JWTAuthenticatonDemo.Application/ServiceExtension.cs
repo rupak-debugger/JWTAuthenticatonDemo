@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MediatR;
 using FluentValidation;
 using JWTAuthenticatonDemo.Application.Models.Authentication;
+using JWTAuthenticatonDemo.Application.Behaviors;
 
 namespace JWTAuthenticatonDemo.Application
 {
@@ -22,17 +23,14 @@ namespace JWTAuthenticatonDemo.Application
             //adding Automapper 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            // Register Fluent Validation validators
-            //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            //adding fluent validation
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-           // AssemblyScanner.FindValidatorsInAssembly(typeof(Assembly).Assembly)
-           //.ForEach(item => services.AddTransient(item.InterfaceType, item.ValidatorType));
+            AssemblyScanner.FindValidatorsInAssembly(typeof(Assembly).Assembly)
+           .ForEach(item => services.AddScoped(item.InterfaceType, item.ValidatorType));
 
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-            // Configure MediatR pipeline with Fluent Validation
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
-            //services.AddInfrastructure(config);
             return services;
         }
     }

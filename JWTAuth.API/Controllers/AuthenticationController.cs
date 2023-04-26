@@ -28,5 +28,11 @@ namespace JWTAuth.API.Controllers
         {
             return Ok(await _mediator.Send(query));
         }
+
+        [HttpPost("AddUser")]
+        public async Task<IActionResult> AddUser([FromBody] AddUserCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
     }
 }
