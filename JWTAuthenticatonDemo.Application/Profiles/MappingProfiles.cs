@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using JWTAuthenticatonDemo.Application.Features.ApplicationUser.Commands;
+using JWTAuthenticatonDemo.Application.Features.ApplicationUser.Queries;
 using JWTAuthenticatonDemo.Application.Models.Authentication;
 using JWTAuthenticatonDemo.Domain.Entities;
 using System;
@@ -13,9 +15,8 @@ namespace JWTAuthenticatonDemo.Application.Profiles
     {
         public MappingProfiles()
         {
-            CreateMap<ApplicationUser, RegistrationResponse>();
-            CreateMap<RegistrationRequest, ApplicationUser>();
-            CreateMap<ApplicationUser, AuthenticationResponse>();
+            CreateMap<RegisterUserCommand, RegistrationRequest>();
+            CreateMap<LoginUserQuery, AuthenticationRequest>();
         }
     }
 }

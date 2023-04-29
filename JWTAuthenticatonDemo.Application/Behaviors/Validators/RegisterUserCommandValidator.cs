@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using JWTAuthenticatonDemo.Application.Contracts.Repositories;
-using JWTAuthenticatonDemo.Application.Features.Authentication.Commands;
+using JWTAuthenticatonDemo.Application.Features.ApplicationUser.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace JWTAuthenticatonDemo.Application.Behaviors.Validators
 {
-    public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
+    public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
     {
-        public AddUserCommandValidator(IApplicationUserRepository applicationUserRepo)
+        public RegisterUserCommandValidator(IApplicationUserRepository applicationUserRepo)
         {
             RuleFor(u => u.FirstName)
                 .NotEmpty()
