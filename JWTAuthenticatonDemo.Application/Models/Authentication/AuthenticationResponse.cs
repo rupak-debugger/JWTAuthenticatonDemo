@@ -11,16 +11,18 @@ namespace JWTAuthenticatonDemo.Application.Models.Authentication
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
+        public string RefreshToken { get; set; }
 
         public AuthenticationResponse()
         {
             
         }
-        public AuthenticationResponse(string userName, string email, string token)
+        public AuthenticationResponse(string userName, string email, string token, string refreshToken)
         {
             this.UserName = userName;
             this.Email = email;
             this.Token = token;
+            this.RefreshToken = refreshToken;
         }
     }
 }

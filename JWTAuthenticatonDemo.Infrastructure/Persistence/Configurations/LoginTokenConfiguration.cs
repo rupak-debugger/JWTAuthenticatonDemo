@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 
 namespace JWTAuthenticatonDemo.Infrastructure.Persistence.Configurations
 {
-    public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
+    public class LoginTokenConfiguration : IEntityTypeConfiguration<LoginToken>
     {
-        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+        public void Configure(EntityTypeBuilder<LoginToken> builder)
         {
-            builder.Property(a => a.FirstName).HasMaxLength(20);
-            builder.Property(a => a.LastName).HasMaxLength(20);
-            builder.Property(a => a.Email).HasMaxLength(20);            
-            builder.HasIndex(a => a.Email).IsUnique();
+            builder.HasOne(t => t.User).WithMany(u => u.LoginTokens).HasForeignKey(t => t.UserId);
             builder.Property(a => a.CreatedBy).HasMaxLength(50);
             builder.Property(a => a.LastModifiedBy).HasMaxLength(50);
         }

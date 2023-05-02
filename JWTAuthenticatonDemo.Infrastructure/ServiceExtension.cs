@@ -99,6 +99,7 @@ namespace JWTAuthenticatonDemo.Infrastructure
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
+            services.AddTransient<ILoginTokenRepository, LoginTokenRepository>();
             #endregion
             return services;
         }

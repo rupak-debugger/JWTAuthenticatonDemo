@@ -70,6 +70,61 @@ namespace JWTAuthenticatonDemo.Infrastructure.Migrations
 
                     b.ToTable("ApplicationUsers");
                 });
+
+            modelBuilder.Entity("JWTAuthenticatonDemo.Domain.Entities.LoginToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("LoggedInAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LoginTokens");
+                });
+
+            modelBuilder.Entity("JWTAuthenticatonDemo.Domain.Entities.LoginToken", b =>
+                {
+                    b.HasOne("JWTAuthenticatonDemo.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("LoginTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("JWTAuthenticatonDemo.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("LoginTokens");
+                });
 #pragma warning restore 612, 618
         }
     }

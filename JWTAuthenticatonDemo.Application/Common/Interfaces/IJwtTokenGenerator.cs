@@ -10,6 +10,9 @@ namespace JWTAuthenticatonDemo.Application.Common.Interfaces
 {
     public interface IJwtTokenGenerator
     {
-        Task<string> GenerateToken(ApplicationUser user);
+        Task<string> GenerateAccessToken(ApplicationUser user);
+        Task<string> GenerateRefreshToken();
+        Task<bool> ValidateRefreshToken(string refreshToken);
+        //Task<ApplicationUser> GetUserFromRefreshToken(string refreshToken);
     }
 }

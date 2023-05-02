@@ -1,6 +1,7 @@
 ﻿using JWTAuthenticatonDemo.Application.Features.ApplicationUser.Commands;
 using JWTAuthenticatonDemo.Application.Features.ApplicationUser.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,13 @@ namespace JWTAuth.API.Controllers
 
         [HttpPost("AuthenticateUser")]
         public async Task<IActionResult> AuthenticateUserAsync([FromBody] LoginUserQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+
+        [HttpPost("RefreshToken")]
+        //[Authorize]
+        public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenQuery query)
         {
             return Ok(await _mediator.Send(query));
         }

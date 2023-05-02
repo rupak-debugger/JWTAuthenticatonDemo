@@ -13,5 +13,6 @@ namespace JWTAuthenticatonDemo.Application.Contracts.Services
     {
         Task<Response<AuthenticationResponse>> AuthenticateUserAsync(AuthenticationRequest request);
         Task<Response<RegistrationResponse>> RegisterUserAsync(RegistrationRequest request);
+        Task<Response<AuthenticationResponse>> RefreshTokenAsync(string refreshToken);
     }
 }

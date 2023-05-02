@@ -11,17 +11,23 @@ using JWTAuthenticatonDemo.Application.Settings;
 using Microsoft.Extensions.Options;
 using JWTAuthenticatonDemo.Application.Models.Authentication;
 using JWTAuthenticatonDemo.Domain.Entities;
+using System.Security.Cryptography;
+using JWTAuthenticatonDemo.Application.Contracts.Repositories;
 
 namespace JWTAuthenticatonDemo.Infrastructure.Authentication
 {
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
         private readonly JWTSettings _jwtSettings;
-        public JwtTokenGenerator(IOptions<JWTSettings> jwtSettings)
+        private readonly ILoginTokenRepository _loginTokenRepo;
+        private readonly IApplicationUserRepository _applicationUserRepo;
+        public JwtTokenGenerator(IOptions<JWTSettings> jwtSettings, ILoginTokenRepository loginTokenRepo, IApplicationUserRepository applicationUserRepo)
         {
             _jwtSettings = jwtSettings.Value;
+            _loginTokenRepo = loginTokenRepo;
+            _applicationUserRepo = applicationUserRepo;
         }
-        public async Task<string> GenerateToken(ApplicationUser user)
+        public async Task<string> GenerateAccessToken(ApplicationUser user)
         {
             var claims = new[]
             {
@@ -42,6 +48,26 @@ namespace JWTAuthenticatonDemo.Infrastructure.Authentication
                 signingCredentials: signingCredentials)
             );
             return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        }
+
+        public async  Task<string> GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            await Task.Run(() => rng.GetBytes(randomNumber));            
+            return Convert.ToBase64String(randomNumber);
+        }
+
+        //public async Task<ApplicationUser> GetUserFromRefreshToken(string refreshToken)
+        //{
+        //    var loginToken = await _loginTokenRepo.FirstOrDefaultAsync(t => t.RefreshToken == refreshToken);
+        //    var user = await _applicationUserRepo.FirstOrDefaultAsync(u => u.Id == loginToken.UserId);
+        //    return user;
+        //}
+
+        public async Task<bool> ValidateRefreshToken(string refreshToken)
+        {
+            return await _loginTokenRepo.AnyAsync(x => x.RefreshToken == refreshToken);
         }
     }
 }

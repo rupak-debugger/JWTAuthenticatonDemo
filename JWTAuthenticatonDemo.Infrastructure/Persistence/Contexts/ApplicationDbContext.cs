@@ -19,6 +19,7 @@ namespace JWTAuthenticatonDemo.Infrastructure.Persistence.Contexts
 
         #region DbSets
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<LoginToken> LoginTokens { get; set; }
 
         #endregion
 

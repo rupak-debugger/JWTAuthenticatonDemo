@@ -17,12 +17,14 @@ namespace JWTAuthenticatonDemo.Infrastructure.Persistence.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IApplicationUserRepository _applicationUserRepo;
+        private readonly ILoginTokenRepository _loginTokenRepo;
 
-        public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IApplicationUserRepository applicationUserRepo, IPasswordHasher passwordHasher)
+        public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IApplicationUserRepository applicationUserRepo, IPasswordHasher passwordHasher, ILoginTokenRepository loginTokenRepo)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _applicationUserRepo = applicationUserRepo;
             _passwordHasher = passwordHasher;
+            _loginTokenRepo = loginTokenRepo;
         }
 
         public async Task<Response<RegistrationResponse>> RegisterUserAsync(RegistrationRequest request)
@@ -65,8 +67,16 @@ namespace JWTAuthenticatonDemo.Infrastructure.Persistence.Services
                     var result = await _passwordHasher.VerifyPasswordAsync(request.Password, user.PasswordHash);
                     if (result)
                     {
-                        var token = await _jwtTokenGenerator.GenerateToken(user);
-                        var response = new AuthenticationResponse(user.FirstName, user.Email, token);
+                        var token = await _jwtTokenGenerator.GenerateAccessToken(user);
+                        var refreshToken = await _jwtTokenGenerator.GenerateRefreshToken();
+                        var loginEntity = new LoginToken()
+                        {
+                            UserId = user.Id,
+                            RefreshToken = refreshToken,
+                        };
+                        await _loginTokenRepo.AddAsync(loginEntity);
+                        await _loginTokenRepo.SaveChangesAsync();
+                        var response = new AuthenticationResponse(user.FirstName, user.Email, token, refreshToken);
                         return new Response<AuthenticationResponse>(response, "Logged in Successfully");
                     }
                     //PasswordsDonotMatchException
@@ -82,5 +92,34 @@ namespace JWTAuthenticatonDemo.Infrastructure.Persistence.Services
                 return new Response<AuthenticationResponse>(errors);
             }
         }
+
+        public async Task<Response<AuthenticationResponse>> RefreshTokenAsync(string refreshToken)
+        {
+            try
+            {
+                var result = await _jwtTokenGenerator.ValidateRefreshToken(refreshToken);
+                if (result)
+                {
+                    var loginTokenEntity = await _loginTokenRepo.FirstOrDefaultAsync(l => l.RefreshToken == refreshToken);
+                    //var user = await _jwtTokenGenerator.GetUserFromRefreshToken(refreshToken);
+                    var user = await _applicationUserRepo.FirstOrDefaultAsync(a => a.Id == loginTokenEntity.UserId);
+                    var token = await _jwtTokenGenerator.GenerateAccessToken(user);
+                    var newRefreshToken = await _jwtTokenGenerator.GenerateRefreshToken();                    
+                    loginTokenEntity.RefreshToken = newRefreshToken;
+                    await _loginTokenRepo.UpdateAsync(loginTokenEntity);
+                    await _loginTokenRepo.SaveChangesAsync();
+                    var response = new AuthenticationResponse(user.FirstName, user.Email, token, newRefreshToken);
+                    return new Response<AuthenticationResponse>(response, "Access token updated");
+                }
+                throw new Exception("Refresh token not valid");
+            }
+            catch (Exception ex)
+            {
+                List<string> errors = new();
+                errors.Add(ex.Message);
+                return new Response<AuthenticationResponse>(errors);
+            }
+        }
+
     }
 }
