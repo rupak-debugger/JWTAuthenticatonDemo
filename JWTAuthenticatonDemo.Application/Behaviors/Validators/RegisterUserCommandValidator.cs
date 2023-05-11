@@ -11,17 +11,23 @@ namespace JWTAuthenticatonDemo.Application.Behaviors.Validators
 {
     public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
     {
+        private readonly IApplicationUserRepository _applicationUserRepo;
         public RegisterUserCommandValidator(IApplicationUserRepository applicationUserRepo)
         {
+            _applicationUserRepo = applicationUserRepo;
             RuleFor(u => u.FirstName)
                 .NotEmpty()
-                .NotNull()
-                .NotEqual("string");
+                .NotNull();
 
             RuleFor(u => u.LastName)
                 .NotEmpty()
-                .NotNull()
-                .NotEqual("string");
+                .NotNull().WithMessage("{PropertyName} is required");
+
+            RuleFor(u => u.Email)
+                .NotEmpty()
+                .MustAsync(async (email,token) =>
+                !await _applicationUserRepo.AnyAsync(x => x.Email == email))
+                .WithMessage((email)=>$" Email: '{email}' Already taken");
         }
     }
 }
